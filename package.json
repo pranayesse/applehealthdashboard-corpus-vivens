@@ -1,0 +1,16 @@
+{
+  "name": "corpus-vivens",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A private, local anatomical dashboard fed by Apple Health data.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "import": "node src/import.js",
+    "test": "node --test test/*.test.js",
+    "seed": "node scripts/seed.js"
+  }
+}

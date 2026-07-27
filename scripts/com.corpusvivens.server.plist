@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Keeps the service running and restarts it if it dies.
+
+  Install:
+    cp scripts/com.corpusvivens.server.plist ~/Library/LaunchAgents/
+    # edit the paths below to match where you cloned this
+    launchctl load ~/Library/LaunchAgents/com.corpusvivens.server.plist
+
+  Stop:
+    launchctl unload ~/Library/LaunchAgents/com.corpusvivens.server.plist
+
+  The service only receives while the Mac is awake. Missed posts are
+  recoverable — re-sync the date range from Health Auto Export, or export
+  the days and run `npm run import`.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.corpusvivens.server</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/node</string>
+    <string>/Users/CHANGEME/health-app-dashboard/src/server.js</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/CHANGEME/health-app-dashboard</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>INGEST_TOKEN</key>
+    <string>CHANGEME</string>
+    <key>PORT</key>
+    <string>8080</string>
+    <key>HOST</key>
+    <string>0.0.0.0</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/tmp/corpusvivens.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/corpusvivens.err</string>
+</dict>
+</plist>

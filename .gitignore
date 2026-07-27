@@ -1,0 +1,26 @@
+# Health data never belongs in this repository.
+# The database, any exports, and anything you drop in to import.
+data/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+
+# Health Auto Export dumps and Apple Health exports
+HealthAutoExport*.json
+export.xml
+export_cda.xml
+apple_health_export/
+exports/
+
+# Secrets
+.env
+.env.local
+*.pem
+
+# OS / editor
+.DS_Store
+node_modules/
+*.log
+.vscode/
+.idea/
