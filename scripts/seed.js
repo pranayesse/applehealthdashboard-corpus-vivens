@@ -14,6 +14,7 @@
  *   DELETE FROM readings WHERE source = 'synthetic';
  */
 
+import "../src/env.js";
 import { openDb, insertRows, latestAll } from "../src/db.js";
 
 const days = Number(process.argv[2] || 45);

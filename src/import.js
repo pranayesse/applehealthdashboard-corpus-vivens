@@ -10,6 +10,7 @@
  * Re-importing the same file is safe: rows upsert on (metric, timestamp).
  */
 
+import "./env.js";
 import { readFile, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import { normalize } from "./normalize.js";

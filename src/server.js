@@ -12,6 +12,7 @@
  *   GET  /            The plate itself.
  */
 
+import "./env.js";   // must come first: everything below reads process.env
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, normalize as normPath } from "node:path";
