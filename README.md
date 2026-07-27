@@ -23,26 +23,46 @@ Apple Watch → iPhone → Health Auto Export → your Mac → SQLite → the pl
 ```bash
 git clone https://github.com/pranayesse/health-app-dashboard.git
 cd health-app-dashboard
+./scripts/setup.sh
+```
 
+That checks your Node version, generates a token, writes `.env`, and starts
+the service. Then open **http://localhost:8080/setup** on the Mac.
+
+That page shows the exact URL and header to paste into Health Auto Export,
+with copy buttons, and turns green the moment your phone's first sync
+arrives. It also tells you what to check if nothing shows up.
+
+macOS will ask whether `node` may accept incoming connections. You have to
+click **Allow**, or your phone cannot reach the service.
+
+The setup page shows your ingest token, so it is only served to requests
+coming from the Mac itself. Anyone else on your Wi-Fi loading that page gets
+it without the secret.
+
+<details>
+<summary>Doing it by hand instead</summary>
+
+```bash
 cp .env.example .env
 openssl rand -hex 32          # paste into INGEST_TOKEN in .env
-
 npm start
 ```
 
-The service prints the URL to point your phone at.
+In Health Auto Export, create an **Automation**:
 
-### Point Health Auto Export at it
+- Type **REST API**, method **POST**, format **JSON**
+- URL `http://<your-mac-ip>:8080/ingest`
+- Header `Authorization: Bearer <your INGEST_TOKEN>`
+- Interval every 5 minutes
 
-1. Find your Mac's address: **System Settings → General → Sharing →
-   Local hostname**, something like `pranays-macbook.local`.
-2. In Health Auto Export, create an **Automation** with:
-   - Type **REST API**, method **POST**, format **JSON**
-   - URL `http://pranays-macbook.local:8080/ingest`
-   - Header `Authorization: Bearer <your INGEST_TOKEN>`
-3. Select the metrics you want. Everything in the catalog is understood, and
-   anything unrecognised is stored anyway rather than dropped.
-4. Set the sync interval. Every 5 minutes is a reasonable floor.
+Find your IP with `ipconfig getifaddr en0`.
+</details>
+
+Everything in the catalog is understood, and anything unrecognised is stored
+rather than dropped. For a heart that tracks you through the day rather than
+showing one number, set the aggregation granularity finer than daily — the
+schema already handles intraday points.
 
 ### Seed some history
 

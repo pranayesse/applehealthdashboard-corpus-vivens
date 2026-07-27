@@ -17,6 +17,7 @@ import { readFile } from "node:fs/promises";
 import { extname, join, normalize as normPath } from "node:path";
 import { fileURLToPath } from "node:url";
 import { timingSafeEqual } from "node:crypto";
+import { networkInterfaces } from "node:os";
 
 import { normalize } from "./normalize.js";
 import {
@@ -84,6 +85,27 @@ function readBody(req) {
 }
 
 const quitTs = QUIT_DATE ? Date.parse(QUIT_DATE) : null;
+
+/** First non-internal IPv4 address — what the phone should post to. */
+function lanAddress() {
+  for (const addrs of Object.values(networkInterfaces())) {
+    for (const a of addrs ?? []) {
+      if (a.family === "IPv4" && !a.internal) return a.address;
+    }
+  }
+  return null;
+}
+
+/**
+ * The setup page shows the ingest token so it can be copied to the phone,
+ * and the service listens on the LAN — so the token is only ever sent to
+ * a request originating from this machine. Anyone else on the Wi-Fi gets
+ * the page without the secret.
+ */
+function isLoopback(req) {
+  const a = req.socket.remoteAddress ?? "";
+  return a === "127.0.0.1" || a === "::1" || a === "::ffff:127.0.0.1";
+}
 
 /* ── the payload the plate consumes ──────────────────────── */
 
@@ -191,6 +213,28 @@ const server = createServer(async (req, res) => {
         points: day ? intraday(db, name, day) : null,
         summary: overview(db, [name])[name] ?? null
       });
+    }
+
+    if (req.method === "GET" && path === "/api/setup") {
+      const stats = ingestStats(db);
+      const local = isLoopback(req);
+      return json(res, 200, {
+        local,
+        // withheld from anyone but this machine
+        token: local ? TOKEN : null,
+        address: lanAddress(),
+        port: PORT,
+        boundToLan: HOST === "0.0.0.0",
+        ingests: stats.n,
+        lastIngest: stats.last,
+        days: dayCount(db),
+        metrics: metricNames(db).length,
+        quitDateSet: Boolean(quitTs && !Number.isNaN(quitTs))
+      });
+    }
+
+    if (req.method === "GET" && path === "/setup") {
+      return serveStatic(res, "/setup.html");
     }
 
     if (req.method === "GET" && path === "/api/health") {

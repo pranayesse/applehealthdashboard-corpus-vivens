@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Corpus Vivens — setup</title>
+<link rel="stylesheet" href="/plate.css">
+<style>
+  .wrap{max-width:760px;margin:0 auto;padding:clamp(28px,5vw,72px) clamp(18px,4vw,40px) 72px}
+  ol.steps{list-style:none;counter-reset:s;margin:28px 0 0;padding:0;display:grid;gap:26px}
+  ol.steps > li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:16px;align-items:start}
+  ol.steps > li::before{
+    content:counter(s);font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    color:var(--ink-faint);border:1px solid var(--rule);width:34px;height:34px;
+    display:grid;place-items:center;border-radius:50%;
+  }
+  .step-b h3{margin:0 0 6px;font-size:18px;font-weight:400;font-style:italic}
+  .step-b p{margin:0 0 10px;color:var(--ink-soft);font-size:15px}
+  .field{
+    display:grid;gap:6px;background:var(--paper);border:1px solid var(--rule);
+    padding:11px 13px;margin:8px 0;
+  }
+  .field label{
+    font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .field .val{
+    font-family:var(--mono);font-size:13px;word-break:break-all;color:var(--ink);
+    display:flex;gap:10px;align-items:flex-start;justify-content:space-between;
+  }
+  .copy{
+    font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+    background:none;border:1px solid var(--rule);color:var(--ink-soft);
+    padding:5px 9px;cursor:pointer;flex:none;
+  }
+  .copy:hover{border-color:var(--carmine);color:var(--carmine)}
+  .copy:focus-visible{outline:2px solid var(--carmine);outline-offset:2px}
+
+  .status{
+    margin-top:34px;border:1px solid var(--rule);border-left:2px solid var(--rule);
+    background:var(--paper);padding:18px 20px;display:grid;gap:6px;
+  }
+  .status[data-state="waiting"]{border-left-color:var(--watch)}
+  .status[data-state="live"]{border-left-color:var(--good)}
+  .status h2{margin:0;font-size:19px;font-weight:400;font-style:italic}
+  .status p{margin:0;color:var(--ink-soft);font-size:14.5px}
+  .pulse{
+    display:inline-block;width:8px;height:8px;border-radius:50%;
+    background:var(--watch);margin-right:9px;vertical-align:middle;
+  }
+  .status[data-state="live"] .pulse{background:var(--good);animation:blink 2s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+  .warn{
+    margin-top:20px;border:1px solid var(--rule);border-left:2px solid var(--unusual);
+    background:var(--paper);padding:14px 16px;font-size:14.5px;color:var(--ink-soft);
+  }
+  .warn b{color:var(--ink);font-weight:400;font-style:italic}
+  a{color:var(--carmine)}
+  @media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow" style="display:flex;gap:20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint)">
+    <span>Corpus Vivens</span><span>Setup</span>
+  </div>
+  <h1 style="font-weight:400;font-style:italic;font-size:clamp(32px,6vw,52px);line-height:1;margin:14px 0 0">
+    Connect your watch
+  </h1>
+  <p style="color:var(--ink-soft);max-width:58ch;font-size:16.5px">
+    The service is running on this Mac. Three things left, all on your phone.
+    This page goes green the moment the first sync arrives.
+  </p>
+
+  <div class="warn" id="lanWarn" hidden></div>
+
+  <ol class="steps">
+    <li>
+      <div class="step-b">
+        <h3>Open Health Auto Export on your iPhone</h3>
+        <p>Go to the <b>Automations</b> tab and add a new automation. Set its
+        type to <b>REST API</b>, the method to <b>POST</b> and the format to
+        <b>JSON</b>.</p>
+      </div>
+    </li>
+
+    <li>
+      <div class="step-b">
+        <h3>Paste in these two values</h3>
+        <p>The URL goes in the address field. The header is added under the
+        automation's headers section — name on the left, value on the right.</p>
+
+        <div class="field">
+          <label>URL</label>
+          <div class="val"><span id="url">…</span>
+            <button class="copy" data-copy="url">Copy</button></div>
+        </div>
+
+        <div class="field">
+          <label>Header name</label>
+          <div class="val"><span id="hname">Authorization</span>
+            <button class="copy" data-copy="hname">Copy</button></div>
+        </div>
+
+        <div class="field">
+          <label>Header value</label>
+          <div class="val"><span id="hval">…</span>
+            <button class="copy" data-copy="hval">Copy</button></div>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="step-b">
+        <h3>Choose what to send, then turn it on</h3>
+        <p>Select the metrics you want — all of them is fine, anything
+        unrecognised is stored rather than dropped. Set the interval to
+        <b>every 5 minutes</b>.</p>
+        <p>For a heart that genuinely tracks you rather than showing one
+        number all day, set the aggregation granularity finer than daily.
+        Hourly or better.</p>
+      </div>
+    </li>
+  </ol>
+
+  <div class="status" id="status" data-state="waiting">
+    <h2><span class="pulse"></span><span id="statusTitle">Waiting for the first sync…</span></h2>
+    <p id="statusBody">Leave this page open. It checks every few seconds.</p>
+  </div>
+
+  <div class="warn" style="margin-top:26px">
+    <b>If nothing arrives.</b> Almost always one of three things: you missed
+    the macOS prompt asking whether <code>node</code> may accept incoming
+    connections, the phone is on a different Wi-Fi network, or the header
+    value is missing the word <code>Bearer</code> before the token.
+  </div>
+
+  <p style="margin-top:30px;font-size:14px;color:var(--ink-faint)">
+    Once data is flowing, the plate is at <a href="/">http://localhost:8080</a>.
+  </p>
+</div>
+
+<script type="module">
+const el = id => document.getElementById(id);
+
+function copyable(id, text) {
+  el(id).textContent = text;
+}
+
+async function poll() {
+  let d;
+  try {
+    d = await (await fetch("/api/setup")).json();
+  } catch {
+    el("statusTitle").textContent = "Lost contact with the service";
+    el("statusBody").textContent = "Is it still running in your terminal?";
+    el("status").dataset.state = "waiting";
+    return;
+  }
+
+  const host = d.address ?? "your-mac-ip";
+  copyable("url", `http://${host}:${d.port}/ingest`);
+
+  if (d.local && d.token) {
+    copyable("hval", `Bearer ${d.token}`);
+  } else {
+    copyable("hval", "— open this page on the Mac itself to see the token —");
+  }
+
+  if (!d.boundToLan) {
+    const w = el("lanWarn");
+    w.hidden = false;
+    w.innerHTML = `<b>Bound to this machine only.</b> HOST is set to
+      127.0.0.1 in your .env, so your phone cannot reach the service.
+      Change it to 0.0.0.0 and restart.`;
+  }
+
+  const s = el("status");
+  if (d.ingests > 0) {
+    s.dataset.state = "live";
+    el("statusTitle").textContent = "Receiving";
+    const when = d.lastIngest
+      ? new Date(d.lastIngest).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+      : "just now";
+    el("statusBody").innerHTML =
+      `${d.ingests} sync${d.ingests === 1 ? "" : "s"} so far, last at ${when}. ` +
+      `${d.days} day${d.days === 1 ? "" : "s"} on record across ${d.metrics} measures. ` +
+      `<a href="/">Open the plate →</a>`;
+  }
+}
+
+for (const b of document.querySelectorAll(".copy")) {
+  b.addEventListener("click", async () => {
+    await navigator.clipboard.writeText(el(b.dataset.copy).textContent.trim());
+    const was = b.textContent;
+    b.textContent = "Copied";
+    setTimeout(() => { b.textContent = was; }, 1400);
+  });
+}
+
+poll();
+setInterval(poll, 3000);
+</script>
+</body>
+</html>
