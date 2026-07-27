@@ -27,6 +27,7 @@ import {
 } from "./db.js";
 import { overview, notes, smokingState, CONSTANTS } from "./baselines.js";
 import { METRICS, ORGANS, PLATE_ORDER } from "./metrics.js";
+import { gameState, travel } from "./game.js";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const PUBLIC = join(ROOT, "public");
@@ -187,8 +188,23 @@ const server = createServer(async (req, res) => {
       return json(res, 200, { ok: true, stored: rows.length, skipped });
     }
 
+    if (req.method === "GET" && path === "/api/game") {
+      return json(res, 200, gameState(db));
+    }
+
+    if (req.method === "POST" && path === "/api/game/travel") {
+      // Travelling and logging are driven by the UI in this Mac's browser,
+      // which has no token, so loopback is accepted. Ingest stays strict.
+      if (!isLoopback(req) && !tokenOk(req.headers.authorization)) {
+        return json(res, 401, { error: "bad or missing token" });
+      }
+      const body = JSON.parse((await readBody(req)).toString("utf8") || "{}");
+      const result = travel(db, String(body.to || ""));
+      return json(res, result.ok ? 200 : 400, result);
+    }
+
     if (req.method === "POST" && path === "/event") {
-      if (!tokenOk(req.headers.authorization || url.searchParams.get("token"))) {
+      if (!isLoopback(req) && !tokenOk(req.headers.authorization || url.searchParams.get("token"))) {
         return json(res, 401, { error: "bad or missing token" });
       }
       const body = JSON.parse((await readBody(req)).toString("utf8") || "{}");
@@ -236,6 +252,10 @@ const server = createServer(async (req, res) => {
 
     if (req.method === "GET" && path === "/setup") {
       return serveStatic(res, "/setup.html");
+    }
+
+    if (req.method === "GET" && path === "/game") {
+      return serveStatic(res, "/game.html");
     }
 
     if (req.method === "GET" && path === "/api/health") {

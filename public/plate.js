@@ -214,7 +214,12 @@ function renderTiles(day) {
          <circle cx="${S(sp.cx)}" cy="${S(sp.cy)}" r="2.6" fill="var(--carmine)"
                  stroke="var(--paper)" stroke-width="1.4"/>
        </svg>` +
-      `<span class="tile-d">${m.note}</span>`;
+      `<span class="tile-d">${m.note}</span>` +
+      // Advice only where there is room to improve. Telling you how to fix
+      // something already going well is how a page becomes wallpaper.
+      (m.improve && (m.position ?? 1) < 0.55
+        ? `<span class="tile-fix"><b>How to improve.</b> ${m.improve}</span>`
+        : "");
 
     const on = () => focusOrgan(m.organ), off = () => focusOrgan(null);
     b.addEventListener("mouseenter", on); b.addEventListener("mouseleave", off);

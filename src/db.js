@@ -43,6 +43,16 @@ CREATE TABLE IF NOT EXISTS events (
   note TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_events_ts ON events(ts DESC);
+
+-- Vasculature: where you are on the map and what you have spent getting there.
+CREATE TABLE IF NOT EXISTS game (
+  key   TEXT PRIMARY KEY,
+  value TEXT
+);
+CREATE TABLE IF NOT EXISTS visits (
+  node       TEXT PRIMARY KEY,
+  visited_at INTEGER NOT NULL
+);
 `;
 
 export function openDb(path = "./data/corpus.sqlite") {

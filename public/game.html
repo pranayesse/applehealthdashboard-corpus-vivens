@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Vasculature</title>
+<link rel="stylesheet" href="/plate.css">
+<style>
+  .map-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,340px);gap:34px;margin-top:26px}
+  @media (max-width:860px){.map-wrap{grid-template-columns:1fr}}
+  .map{width:100%;height:auto;max-height:78vh;overflow:visible}
+
+  .vessel{stroke:var(--rule);stroke-width:2.5;fill:none;stroke-linecap:round}
+  .vessel.walked{stroke:var(--carmine);opacity:.75}
+  .vessel.here{stroke:var(--carmine);stroke-dasharray:6 8;opacity:.9}
+
+  .node circle{fill:var(--ground);stroke:var(--ink-faint);stroke-width:1.6;transition:all .3s ease}
+  .node.seen circle{fill:var(--carmine);stroke:var(--carmine)}
+  .node.here circle{fill:var(--carmine);stroke:var(--carmine);r:9}
+  .node.locked circle{stroke-dasharray:3 3}
+  .node text{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;
+             text-transform:uppercase;fill:var(--ink-faint)}
+  .node.seen text,.node.here text{fill:var(--ink)}
+  .node.reachable circle{stroke:var(--carmine);stroke-width:2.2}
+
+  @keyframes ping{0%{r:7;opacity:.9}100%{r:22;opacity:0}}
+  .here-ping{fill:none;stroke:var(--carmine);stroke-width:1.5;animation:ping 2.4s infinite ease-out}
+
+  .panel{display:grid;gap:18px;align-content:start}
+  .bank{border:1px solid var(--rule);background:var(--paper);padding:16px 18px;display:grid;gap:4px}
+  .bank .big{font-size:34px;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.02em}
+  .bank .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}
+  .bank .sub{font-size:13.5px;color:var(--ink-soft)}
+  .bank .tar{color:var(--unusual)}
+
+  .routes{display:grid;gap:1px;background:var(--rule-soft);border:1px solid var(--rule)}
+  .route{background:var(--paper);padding:13px 15px;display:grid;gap:6px;border:0;
+         text-align:left;font:inherit;color:inherit;width:100%}
+  .route .rt-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .route .rt-name{font-size:16.5px;font-style:italic}
+  .route .rt-cost{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-faint);
+                  font-variant-numeric:tabular-nums;flex:none}
+  .route .rt-note{font-size:13px;color:var(--ink-soft)}
+  .route.can{cursor:pointer}
+  .route.can:hover{background:var(--raised)}
+  .route.can .rt-name{color:var(--carmine)}
+  .route.blocked{opacity:.72}
+  .route .bar{height:3px;background:var(--rule-soft);position:relative;overflow:hidden}
+  .route .bar i{position:absolute;inset:0 auto 0 0;background:var(--carmine);display:block}
+  .go{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+      border:1px solid var(--carmine);color:var(--carmine);background:none;padding:6px 11px;cursor:pointer}
+  .go:hover{background:var(--carmine);color:var(--paper)}
+
+  .log{border-left:2px solid var(--rule);padding-left:14px;font-size:14px;color:var(--ink-soft);min-height:2em}
+  .log.win{border-left-color:var(--good);color:var(--ink)}
+  .log.err{border-left-color:var(--unusual)}
+  nav.tabs{display:flex;gap:2px;margin-top:20px}
+  nav.tabs a{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+             padding:9px 15px;border:1px solid var(--rule);color:var(--ink-soft);text-decoration:none}
+  nav.tabs a[aria-current]{background:var(--carmine);border-color:var(--carmine);color:var(--paper)}
+  @media (prefers-reduced-motion:reduce){.here-ping{animation:none;opacity:0}}
+</style>
+</head>
+<body>
+<article class="plate">
+  <header class="masthead">
+    <div class="eyebrow">
+      <span>Fig. II</span><span>Vasculature</span>
+      <span>Begun <b id="since">—</b></span>
+      <span id="progress">—</span>
+    </div>
+    <h1>Vasculature<span>A journey through your own circulation, moved by walking</span></h1>
+    <p class="dek">Every step you take is banked against the vessel ahead of you. Some
+    organs are closed until the measure that guards them improves. A cigarette lays
+    tar in the vessel you are standing in, and tar costs steps to clear.</p>
+  </header>
+
+  <nav class="tabs">
+    <a href="/">The plate</a>
+    <a href="/game" aria-current="page">Vasculature</a>
+  </nav>
+
+  <div class="map-wrap">
+    <svg class="map" id="map" viewBox="0 0 560 900" role="img"
+         aria-label="Map of the circulatory system showing your position and route.">
+      <g id="body" opacity=".2"></g>
+      <g id="edges"></g>
+      <g id="nodes"></g>
+    </svg>
+
+    <div class="panel">
+      <div class="bank">
+        <span class="lbl">Steps in hand</span>
+        <span class="big" id="available">—</span>
+        <span class="sub" id="bankSub">—</span>
+        <span class="sub tar" id="tarLine" hidden></span>
+      </div>
+
+      <div>
+        <h2 class="sect">Standing at</h2>
+        <p style="margin:0;font-size:20px;font-style:italic" id="hereName">—</p>
+        <p style="margin:4px 0 0;font-size:13.5px;color:var(--ink-soft)" id="hereNote"></p>
+      </div>
+
+      <div>
+        <h2 class="sect">Vessels from here</h2>
+        <div class="routes" id="routes"></div>
+      </div>
+
+      <p class="log" id="log">Walk, and the road opens.</p>
+
+      <div>
+        <h2 class="sect">Log</h2>
+        <div class="controls">
+          <button class="act" id="logCig">Log a cigarette</button>
+          <button class="act" id="logCrav">Rode out a craving</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p><b>How it works.</b> Steps count from the day you started, not from your
+    whole history, so the map cannot be skipped by importing the past. Gates check
+    your latest reading for the measure named, so an organ that is closed today
+    opens by itself once the number moves.</p>
+  </footer>
+</article>
+
+<script type="module" src="/game.js"></script>
+</body>
+</html>

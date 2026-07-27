@@ -109,6 +109,32 @@ curve, and it is labelled as modelled everywhere it appears.
 If you want a real number there, a CO breathalyser costs about £25 and reads
 in ppm. Log it and the panel becomes measurement rather than inference.
 
+## Vasculature
+
+A second page at `/game`. You start at the heart and walk your way through your
+own circulatory system — steps bank against the vessel ahead of you, and the
+map is the same figure the plate draws.
+
+- **Steps count from the day you start**, not from your history, so the map
+  can't be skipped by importing the past.
+- **Some organs are gated on a measure**, not on distance. The brain opens at
+  seven hours of sleep, the renal artery at a resting rate of 82 or below, the
+  foot at an HRV of 30. Those thresholds sit just beyond a sedentary starting
+  point — each is a nudge, not a wall, and a closed organ opens by itself once
+  the number moves.
+- **A logged cigarette lays tar** in the vessel you're standing in, which costs
+  2,500 steps to clear.
+- Reaching an organ unlocks it. The full map is about 73,000 steps.
+
+Travel and event logging are accepted from loopback without a token, so the
+browser on your Mac can drive them. Ingest stays strict.
+
+## How to improve
+
+Every metric carries concrete guidance, shown on its tile only when there's
+room to improve — advice attached to something already going well is how a
+page turns into wallpaper.
+
 ## Marginal notes
 
 Once there are at least 7 days on record, the plate stops using population

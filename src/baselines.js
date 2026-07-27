@@ -124,6 +124,7 @@ export function summarize(db, name) {
     unit: info.unit,
     precision: info.precision,
     blurb: info.blurb,
+    improve: info.improve ?? null,
     better: info.better,
     reference: info.reference,
     scale: info.scale ?? null,
