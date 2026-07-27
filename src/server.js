@@ -37,6 +37,7 @@ const HOST = process.env.HOST || "0.0.0.0";
 const DB_PATH = process.env.DB_PATH || join(ROOT, "data", "corpus.sqlite");
 const TOKEN = process.env.INGEST_TOKEN || "";
 const QUIT_DATE = process.env.QUIT_DATE || "";
+const SUBJECT = process.env.SUBJECT_NAME || "Anonymous";
 const MAX_BODY = 12 * 1024 * 1024;   // a month of backfill fits easily
 
 if (!TOKEN) {
@@ -119,6 +120,7 @@ function buildPlate() {
 
   return {
     generated: Date.now(),
+    subject: SUBJECT,
     days: dayCount(db),
     coldStart: dayCount(db) < CONSTANTS.MIN_DAYS,
     organs: ORGANS,

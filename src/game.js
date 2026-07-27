@@ -163,7 +163,8 @@ export function gameState(db) {
       cost,
       visited: seen.has(to),
       reachable: available >= cost && gate.open,
-      shortBy: Math.max(0, cost - available),
+      // rounded, or a fractional step total surfaces as "62.491 more steps"
+      shortBy: Math.max(0, Math.round(cost - available)),
       gate: node.gate ? gate : null
     };
   });

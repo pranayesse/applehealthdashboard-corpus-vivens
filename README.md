@@ -7,9 +7,16 @@ measured rate, and the legs fill with the distance you actually walked.
 Everything runs on your own machine. No cloud account, no hosting bill,
 nothing leaves your network.
 
+<p align="center">
+  <img src="docs/figure.png" alt="An engraved anatomical figure whose organs are driven by Apple Health readings" width="620">
+</p>
+
 ```
 Apple Watch → iPhone → Health Auto Export → your Mac → SQLite → the plate
 ```
+
+> Every screenshot in this README is generated from a synthetic demo dataset.
+> No real health data is committed to this repository, and none should be.
 
 ## Requirements
 
@@ -32,6 +39,10 @@ the service. Then open **http://localhost:8080/setup** on the Mac.
 That page shows the exact URL and header to paste into Health Auto Export,
 with copy buttons, and turns green the moment your phone's first sync
 arrives. It also tells you what to check if nothing shows up.
+
+<p align="center">
+  <img src="docs/setup.png" alt="The setup page showing the URL and authorization header to paste into Health Auto Export" width="760">
+</p>
 
 macOS will ask whether `node` may accept incoming connections. You have to
 click **Allow**, or your phone cannot reach the service.
@@ -83,6 +94,18 @@ Synthetic rows are tagged `source = 'synthetic'`. Remove them with
 
 ## What the plate shows
 
+<p align="center">
+  <img src="docs/plate.png" alt="The full plate: figure, chronometer, marginal notes and metric tiles" width="900">
+</p>
+
+The chronometer sits directly under the figure — drag it to redraw the body as
+it was on any recorded day. Marginal notes appear only for genuine outliers,
+and metric tiles carry improvement guidance where there is room to improve.
+
+<p align="center">
+  <img src="docs/plate-dark.png" alt="The same plate rendered in dark mode" width="900">
+</p>
+
 | Part of the figure | Driven by |
 |---|---|
 | Heart, beat rate | `resting_heart_rate` |
@@ -110,6 +133,10 @@ If you want a real number there, a CO breathalyser costs about £25 and reads
 in ppm. Log it and the panel becomes measurement rather than inference.
 
 ## Vasculature
+
+<p align="center">
+  <img src="docs/vasculature.png" alt="A map of the circulatory system with your position, visited nodes and available routes" width="900">
+</p>
 
 A second page at `/game`. You start at the heart and walk your way through your
 own circulatory system — steps bank against the vessel ahead of you, and the
@@ -167,6 +194,9 @@ tunnels it without exposing anything publicly.
 | `GET /api/plate` | Everything the figure needs, in one call. |
 | `GET /api/metric/:name` | One metric, with optional `?day=YYYY-MM-DD` intraday points. |
 | `GET /api/health` | Liveness and last-ingest time. |
+| `GET /api/game` | Vasculature state: position, routes, gates, steps banked. |
+| `POST /api/game/travel` | Move to an adjacent vessel. |
+| `GET /api/setup` | Connection details. The token is served to loopback only. |
 
 ## Privacy
 

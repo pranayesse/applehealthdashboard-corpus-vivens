@@ -309,7 +309,7 @@ async function boot() {
 
   cursor = DAYS.length - 1;
 
-  el("subject").textContent = "P. Mokida";
+  el("subject").textContent = PLATE.subject ?? "Anonymous";
   el("dek").textContent =
     `${DAYS.length} recorded day${DAYS.length === 1 ? "" : "s"} across ` +
     `${Object.keys(PLATE.metrics).length} measures, held on this machine. ` +
