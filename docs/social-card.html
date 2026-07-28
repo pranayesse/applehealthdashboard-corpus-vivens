@@ -1,0 +1,94 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Corpus Vivens</title>
+<style>
+  :root{
+    --ground:#DCE0DA; --paper:#E9ECE6; --ink:#26333A; --ink-soft:#5C6B72;
+    --ink-faint:#8B989D; --rule:#B9C1BB; --carmine:#A8324A; --carmine-lift:#C24259;
+    --rose:#B06B75; --tissue:#C9A7A6; --flesh:#CFD3CB;
+    --serif:"Hoefler Text","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0}
+  html,body{width:640px;height:320px;overflow:hidden}
+  body{background:var(--ground);font-family:var(--serif);color:var(--ink);
+       display:grid;grid-template-columns:196px 1fr;align-items:center}
+  .frame{position:absolute;inset:14px;border:1px solid var(--rule);pointer-events:none}
+  .figwrap{display:flex;align-items:center;justify-content:center;height:100%;padding:16px 0 14px 18px}
+  svg.fig{height:288px;width:auto;overflow:visible}
+  .silhouette{fill:var(--flesh);stroke:var(--ink);stroke-width:1.05;stroke-opacity:.5}
+  .hatch{fill:url(#h);opacity:.45}
+  .organ-line{stroke:var(--ink);stroke-width:1;fill:none;opacity:.45}
+  .copy{padding:0 34px 0 16px;display:grid;gap:11px;align-content:center}
+  .eyebrow{font-family:var(--mono);font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;
+           color:var(--ink-faint);display:flex;gap:14px}
+  h1{font-style:italic;font-weight:400;font-size:47px;line-height:.95;letter-spacing:-.02em}
+  .sub{font-size:14.5px;color:var(--ink-soft);line-height:1.35;max-width:30ch}
+  ul{list-style:none;padding:0;display:grid;gap:5px;margin-top:3px}
+  li{font-family:var(--mono);font-size:9px;letter-spacing:.11em;text-transform:uppercase;
+     color:var(--ink-soft);display:flex;align-items:center;gap:8px}
+  li i{width:5px;height:5px;border-radius:50%;background:var(--carmine);flex:none}
+  .rule{height:1px;background:var(--rule);margin:2px 0}
+</style>
+<div class="frame"></div>
+
+<div class="figwrap">
+  <svg class="fig" viewBox="132 22 296 858">
+    <defs>
+      <pattern id="h" width="6" height="6" patternTransform="rotate(38)" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="0" x2="0" y2="6" stroke="var(--ink)" stroke-width=".55" opacity=".3"/>
+      </pattern>
+      <radialGradient id="hs" cx="36%" cy="28%" r="80%">
+        <stop offset="0" stop-color="var(--carmine-lift)"/><stop offset="1" stop-color="var(--carmine)"/>
+      </radialGradient>
+      <linearGradient id="charge" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="var(--carmine)" stop-opacity=".3"/>
+        <stop offset="1" stop-color="var(--carmine)" stop-opacity="0"/>
+      </linearGradient>
+      <clipPath id="legc"><path d="M 284 484 C 306 480 332 484 346 492 C 353 522 355 568 351 616 C 348 648 343 674 339 702 C 335 738 329 782 323 818 C 321 836 319 848 317 856 C 315 864 305 866 297 864 C 291 862 289 854 289 844 C 289 812 290 776 290 742 C 290 700 288 660 287 622 C 286 574 284 526 284 484 Z"/><path d="M 284 484 C 306 480 332 484 346 492 C 353 522 355 568 351 616 C 348 648 343 674 339 702 C 335 738 329 782 323 818 C 321 836 319 848 317 856 C 315 864 305 866 297 864 C 291 862 289 854 289 844 C 289 812 290 776 290 742 C 290 700 288 660 287 622 C 286 574 284 526 284 484 Z" transform="scale(-1,1) translate(-560,0)"/></clipPath>
+    </defs>
+
+    <g opacity=".62">
+      <path class="silhouette" d="M 366 196 C 382 204 390 222 391 246 C 392 280 389 316 386 352 C 384 378 381 402 379 426 C 377 456 374 486 371 508 C 369 524 370 540 366 550 C 362 560 352 560 349 550 C 346 538 348 522 350 506 C 353 480 356 452 358 426 C 360 396 362 360 361 326 C 360 288 358 246 358 220 C 358 204 360 194 366 196 Z"/>
+      <path class="silhouette" d="M 366 196 C 382 204 390 222 391 246 C 392 280 389 316 386 352 C 384 378 381 402 379 426 C 377 456 374 486 371 508 C 369 524 370 540 366 550 C 362 560 352 560 349 550 C 346 538 348 522 350 506 C 353 480 356 452 358 426 C 360 396 362 360 361 326 C 360 288 358 246 358 220 C 358 204 360 194 366 196 Z" transform="scale(-1,1) translate(-560,0)"/>
+      <path class="silhouette" d="M 284 484 C 306 480 332 484 346 492 C 353 522 355 568 351 616 C 348 648 343 674 339 702 C 335 738 329 782 323 818 C 321 836 319 848 317 856 C 315 864 305 866 297 864 C 291 862 289 854 289 844 C 289 812 290 776 290 742 C 290 700 288 660 287 622 C 286 574 284 526 284 484 Z"/>
+      <path class="silhouette" d="M 284 484 C 306 480 332 484 346 492 C 353 522 355 568 351 616 C 348 648 343 674 339 702 C 335 738 329 782 323 818 C 321 836 319 848 317 856 C 315 864 305 866 297 864 C 291 862 289 854 289 844 C 289 812 290 776 290 742 C 290 700 288 660 287 622 C 286 574 284 526 284 484 Z" transform="scale(-1,1) translate(-560,0)"/>
+      <path class="hatch" d="M 366 196 C 382 204 390 222 391 246 C 392 280 389 316 386 352 C 384 378 381 402 379 426 C 377 456 374 486 371 508 C 369 524 370 540 366 550 C 362 560 352 560 349 550 C 346 538 348 522 350 506 C 353 480 356 452 358 426 C 360 396 362 360 361 326 C 360 288 358 246 358 220 C 358 204 360 194 366 196 Z"/>
+      <path class="hatch" d="M 366 196 C 382 204 390 222 391 246 C 392 280 389 316 386 352 C 384 378 381 402 379 426 C 377 456 374 486 371 508 C 369 524 370 540 366 550 C 362 560 352 560 349 550 C 346 538 348 522 350 506 C 353 480 356 452 358 426 C 360 396 362 360 361 326 C 360 288 358 246 358 220 C 358 204 360 194 366 196 Z" transform="scale(-1,1) translate(-560,0)"/>
+      <path class="hatch" d="M 284 484 C 306 480 332 484 346 492 C 353 522 355 568 351 616 C 348 648 343 674 339 702 C 335 738 329 782 323 818 C 321 836 319 848 317 856 C 315 864 305 866 297 864 C 291 862 289 854 289 844 C 289 812 290 776 290 742 C 290 700 288 660 287 622 C 286 574 284 526 284 484 Z"/>
+      <path class="hatch" d="M 284 484 C 306 480 332 484 346 492 C 353 522 355 568 351 616 C 348 648 343 674 339 702 C 335 738 329 782 323 818 C 321 836 319 848 317 856 C 315 864 305 866 297 864 C 291 862 289 854 289 844 C 289 812 290 776 290 742 C 290 700 288 660 287 622 C 286 574 284 526 284 484 Z" transform="scale(-1,1) translate(-560,0)"/>
+      <path class="silhouette" d="M 280.0 40.0 C 304.0 40.0 316.0 64.0 316.0 96.0 C 316.0 120.0 306.0 140.0 294.0 150.0 C 292.0 160.0 291.0 172.0 291.0 184.0 C 318.0 190.0 348.0 197.0 366.0 210.0 C 376.0 217.0 377.0 231.0 371.0 243.0 C 364.0 251.0 354.0 256.0 348.0 264.0 C 344.0 298.0 340.0 330.0 336.0 358.0 C 332.0 382.0 329.0 398.0 329.0 412.0 C 335.0 436.0 346.0 452.0 350.0 472.0 C 348.0 492.0 328.0 502.0 304.0 504.0 C 296.0 505.0 288.0 505.0 280.0 505.0 C 272.0 505.0 264.0 505.0 256.0 504.0 C 232.0 502.0 212.0 492.0 210.0 472.0 C 214.0 452.0 225.0 436.0 231.0 412.0 C 231.0 398.0 228.0 382.0 224.0 358.0 C 220.0 330.0 216.0 298.0 212.0 264.0 C 206.0 256.0 196.0 251.0 189.0 243.0 C 183.0 231.0 184.0 217.0 194.0 210.0 C 212.0 197.0 242.0 190.0 269.0 184.0 C 269.0 172.0 268.0 160.0 266.0 150.0 C 254.0 140.0 244.0 120.0 244.0 96.0 C 244.0 64.0 256.0 40.0 280.0 40.0 Z"/>
+      <path class="hatch" d="M 280.0 40.0 C 304.0 40.0 316.0 64.0 316.0 96.0 C 316.0 120.0 306.0 140.0 294.0 150.0 C 292.0 160.0 291.0 172.0 291.0 184.0 C 318.0 190.0 348.0 197.0 366.0 210.0 C 376.0 217.0 377.0 231.0 371.0 243.0 C 364.0 251.0 354.0 256.0 348.0 264.0 C 344.0 298.0 340.0 330.0 336.0 358.0 C 332.0 382.0 329.0 398.0 329.0 412.0 C 335.0 436.0 346.0 452.0 350.0 472.0 C 348.0 492.0 328.0 502.0 304.0 504.0 C 296.0 505.0 288.0 505.0 280.0 505.0 C 272.0 505.0 264.0 505.0 256.0 504.0 C 232.0 502.0 212.0 492.0 210.0 472.0 C 214.0 452.0 225.0 436.0 231.0 412.0 C 231.0 398.0 228.0 382.0 224.0 358.0 C 220.0 330.0 216.0 298.0 212.0 264.0 C 206.0 256.0 196.0 251.0 189.0 243.0 C 183.0 231.0 184.0 217.0 194.0 210.0 C 212.0 197.0 242.0 190.0 269.0 184.0 C 269.0 172.0 268.0 160.0 266.0 150.0 C 254.0 140.0 244.0 120.0 244.0 96.0 C 244.0 64.0 256.0 40.0 280.0 40.0 Z"/>
+    </g>
+
+    <g clip-path="url(#legc)"><rect x="180" y="870" width="200" height="250" fill="url(#charge)"/></g>
+
+    <g><path d="M 296 274 C 301 260 293 249 283 251 C 276 252 274 260 275 270" fill="none" stroke="var(--carmine)" stroke-width="3" opacity=".45" stroke-linecap="round"/>
+      <path d="M 279 266 C 280 320 281 390 280 460" fill="none" stroke="var(--carmine)" stroke-width="3" opacity=".45" stroke-linecap="round"/>
+      <path d="M 280 460 C 288 476 300 490 306 512 C 312 552 314 610 315 664 C 316 716 316 776 316 826" fill="none" stroke="var(--carmine)" stroke-width="3" opacity=".45" stroke-linecap="round"/>
+      <path d="M 280 460 C 272 476 260 490 254 512 C 248 552 246 610 245 664 C 244 716 244 776 244 826" fill="none" stroke="var(--carmine)" stroke-width="3" opacity=".45" stroke-linecap="round"/>
+      <path d="M 285 251 C 287 222 288 202 289 188 C 289 181 289 176 289 171" fill="none" stroke="var(--carmine)" stroke-width="3" opacity=".45" stroke-linecap="round"/>
+      <path d="M 275 251 C 273 222 272 202 271 188 C 271 181 271 176 271 171" fill="none" stroke="var(--carmine)" stroke-width="3" opacity=".45" stroke-linecap="round"/>
+      <path d="M 300 258 C 322 250 344 258 358 274 C 366 306 368 356 366 412 C 365 452 362 486 359 512" fill="none" stroke="var(--carmine)" stroke-width="3" opacity=".45" stroke-linecap="round"/>
+      <path d="M 260 258 C 238 250 216 258 202 274 C 194 306 192 356 194 412 C 195 452 198 486 201 512" fill="none" stroke="var(--carmine)" stroke-width="3" opacity=".45" stroke-linecap="round"/></g>
+
+    <path d="M 280 58 C 297 58 310 71 310 88 C 310 105 300 117 290 119 C 283 120 277 120 270 119 C 260 117 250 105 250 88 C 250 71 263 58 280 58 Z" fill="var(--tissue)" stroke="var(--ink)" stroke-width="1.3" opacity=".9"/>
+    <path class="organ-line" d="M280 62 C 277 78 277 98 280 116"/>
+    <path class="organ-line" d="M280 160 L280 222" stroke-width="4" opacity=".35"/>
+    <path d="M 290 212 C 306 216 320 236 326 262 C 332 292 330 324 324 344 C 320 356 306 359 297 355 C 292 352 290 346 289 339 C 296 328 298 314 296 301 C 294 288 290 281 287 274 L 287 226 C 287 216 287 212 290 212 Z" fill="var(--rose)" stroke="var(--ink)" stroke-width="1.4" opacity=".92"/>
+    <path d="M 270 212 C 254 216 240 236 234 262 C 228 292 230 324 236 344 C 240 356 254 359 264 355 C 271 351 274 341 274 328 L 274 226 C 274 216 274 212 270 212 Z" fill="var(--rose)" stroke="var(--ink)" stroke-width="1.4" opacity=".92"/>
+    <path d="M 281 271 C 292 266 305 270 310 282 C 315 295 311 312 303 324 C 296 334 288 340 283 337 C 276 331 271 316 271 298 C 271 285 275 274 281 271 Z" fill="url(#hs)" stroke="var(--ink)" stroke-width="1.4"/>
+  </svg>
+</div>
+
+<div class="copy">
+  <div class="eyebrow"><span>Fig. I</span><span>Apple Watch</span><span>Local only</span></div>
+  <h1>Corpus Vivens</h1>
+  <div class="rule"></div>
+  <p class="sub">An anatomical plate wired to a heartbeat. Your own health data, drawn as an engraving.</p>
+  <ul>
+    <li><i></i>Heart beats at your measured rate</li>
+    <li><i></i>Runs on your machine, never the cloud</li>
+    <li><i></i>Node + SQLite, zero dependencies</li>
+  </ul>
+</div>
