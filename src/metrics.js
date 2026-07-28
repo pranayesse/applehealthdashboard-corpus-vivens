@@ -91,32 +91,32 @@ export const METRICS = {
     improve: "Rises with sustained movement rather than short bursts. A continuous walk counts for more than the same steps scattered through the day."
   },
   active_energy: {
-    label: "Active energy", organ: "vasc", unit: "kcal", precision: 0,
+    label: "Active energy", organ: "vasc", unit: "kcal", precision: 0, aggregate: "sum",
     better: "high", reference: [300, 700], scale: [0, 800],
     blurb: "Burned above resting.",
     improve: "Almost entirely walking, for most people. Distance moves this far more than intensity."
   },
   apple_exercise_time: {
-    label: "Exercise", organ: "vasc", unit: "min", precision: 0,
+    label: "Exercise", organ: "vasc", unit: "min", precision: 0, aggregate: "sum",
     better: "high", reference: [30, 60], scale: [0, 60],
     blurb: "Minutes at brisk-walk intensity or above.",
     improve: "Counts minutes at brisk-walk intensity or above. Walking fast enough to be slightly breathless is the whole trick."
   },
   time_in_daylight: {
-    label: "Daylight", organ: "vasc", unit: "min", precision: 0,
+    label: "Daylight", organ: "vasc", unit: "min", precision: 0, aggregate: "sum",
     better: "high", reference: [60, 180], scale: [0, 180],
     blurb: "Outdoor light exposure, which drives the sleep clock.",
     improve: "Morning light is the strongest signal for shifting a late body clock earlier. Fifteen minutes outdoors soon after waking beats an hour in the afternoon."
   },
 
   step_count: {
-    label: "Steps", organ: "legs", unit: "steps", precision: 0,
+    label: "Steps", organ: "legs", unit: "steps", precision: 0, aggregate: "sum",
     better: "high", reference: [7000, 10000], scale: [0, 12000],
     blurb: "The charge rising through the legs.",
     improve: "The cheapest win available to you. Two ten-minute walks are easier to sustain than one long one, and count the same."
   },
   walking_running_distance: {
-    label: "Distance", organ: "legs", unit: "km", precision: 2,
+    label: "Distance", organ: "legs", unit: "km", precision: 2, aggregate: "sum",
     better: "high", reference: [5, 8], scale: [0, 8],
     blurb: "Ground covered on foot.",
     improve: "Follows step count. Adding one deliberate walk a day moves it most."
@@ -147,17 +147,17 @@ export const METRICS = {
   },
 
   apple_stand_hour: {
-    label: "Stand hours", organ: "vasc", unit: "hrs", precision: 0,
+    label: "Stand hours", organ: "vasc", unit: "hrs", precision: 0, aggregate: "sum",
     better: "high", reference: [10, 14], scale: [0, 14], blurb: "Hours with at least a minute on your feet.",
     improve: "An hourly reminder is the whole intervention. Standing for one minute counts."
   },
   apple_stand_time: {
-    label: "Stand time", organ: "vasc", unit: "min", precision: 0,
+    label: "Stand time", organ: "vasc", unit: "min", precision: 0, aggregate: "sum",
     better: "high", reference: [180, 400], scale: [0, 420], blurb: "Total time upright.",
     improve: "Rises naturally with stand hours. Taking calls on your feet is the easiest change."
   },
   basal_energy_burned: {
-    label: "Basal energy", organ: "vasc", unit: "kcal", precision: 0,
+    label: "Basal energy", organ: "vasc", unit: "kcal", precision: 0, aggregate: "sum",
     better: null, reference: null, scale: null, blurb: "What your body spends staying alive.",
     improve: "Largely set by body size and composition. Not something to chase directly."
   }

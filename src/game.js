@@ -115,7 +115,9 @@ export function ensureStarted(db) {
 
 /** Steps recorded on or after the day the game began. */
 function bankedSteps(db, startedDay) {
-  const rows = dailySeries(db, "step_count", 3650);
+  // "sum" matters here: at finer than daily granularity steps arrive as
+  // hourly buckets, and taking the last one would bank an hour as a day.
+  const rows = dailySeries(db, "step_count", 3650, "sum");
   return rows
     .filter(r => r.day >= startedDay && r.qty != null)
     .reduce((s, r) => s + r.qty, 0);

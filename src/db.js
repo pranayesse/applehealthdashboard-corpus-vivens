@@ -106,9 +106,33 @@ export function latestAll(db) {
   return rows.map(parseExtra);
 }
 
-/** One value per day for a metric — the last reading of each day. */
-export function dailySeries(db, name, days = 90) {
+/**
+ * One value per day for a metric.
+ *
+ * How several readings in one day collapse into a day's value depends on what
+ * the metric is. Steps, distance and energy are cumulative: when Health Auto
+ * Export is set to daily aggregation there is one row holding the day's total,
+ * but at finer granularity the same day arrives as hourly buckets. Taking the
+ * last reading would then report the last hour as the whole day. Summing is
+ * correct in both cases, because summing a single total is that total.
+ *
+ * Rates and levels — heart rate, HRV, oxygen — are the opposite: they never
+ * accumulate, so the most recent reading of the day is the one that counts.
+ */
+export function dailySeries(db, name, days = 90, aggregate = "last") {
   const since = Date.now() - days * 86400000;
+
+  if (aggregate === "sum") {
+    return db.prepare(`
+      SELECT day, SUM(qty) AS qty, MAX(units) AS units, MAX(ts) AS ts,
+             COUNT(*) AS readings
+      FROM readings
+      WHERE name = ? AND ts >= ? AND qty IS NOT NULL
+      GROUP BY day
+      ORDER BY day ASC
+    `).all(name, since).map(r => ({ ...r, extra: null }));
+  }
+
   const rows = db.prepare(`
     SELECT r.day, r.qty, r.units, r.extra, r.ts FROM readings r
     JOIN (SELECT day, MAX(ts) AS ts FROM readings WHERE name = ? GROUP BY day) m

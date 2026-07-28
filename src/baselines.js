@@ -99,7 +99,7 @@ function trend(values) {
 
 export function summarize(db, name) {
   const info = metricInfo(name);
-  const series = dailySeries(db, name, WINDOW);
+  const series = dailySeries(db, name, WINDOW, info.aggregate ?? "last");
   if (!series.length) return null;
 
   const latest = series[series.length - 1];
