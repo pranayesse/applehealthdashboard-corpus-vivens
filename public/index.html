@@ -6,6 +6,13 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Corpus Vivens</title>
 <link rel="stylesheet" href="/plate.css">
+<script>
+  // Applied before first paint so the page never flashes the wrong theme.
+  try {
+    const t = localStorage.getItem("corpus-theme");
+    if (t) document.documentElement.setAttribute("data-theme", t);
+  } catch { /* private browsing */ }
+</script>
 </head>
 <body>
 <article class="plate">

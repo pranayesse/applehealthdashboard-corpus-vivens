@@ -4,6 +4,7 @@
  */
 
 import { TORSO, LEG, ARM, MIRROR } from "./anatomy.js";
+import { wireThemeButton } from "./theme.js";
 
 const NS = "http://www.w3.org/2000/svg";
 const el = id => document.getElementById(id);
@@ -166,6 +167,8 @@ async function load() {
     say(`Could not reach the service — ${err.message}`, "err");
   }
 }
+
+wireThemeButton(el("theme"));
 
 load();
 setInterval(load, 60000);

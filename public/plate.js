@@ -10,6 +10,7 @@ import {
   TORSO, LEG, ARM, MIRROR, BRAIN, LUNG_L, LUNG_R, HEART,
   VESSELS, TAGS, LEG_GAUGE
 } from "./anatomy.js";
+import { wireThemeButton } from "./theme.js";
 
 const NS = "http://www.w3.org/2000/svg";
 const $ = s => document.querySelector(s);
@@ -348,12 +349,7 @@ async function boot() {
     render();
   });
 
-  el("theme").addEventListener("click", () => {
-    const cur = document.documentElement.getAttribute("data-theme");
-    const dark = cur ? cur === "dark"
-                     : matchMedia("(prefers-color-scheme:dark)").matches;
-    document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
-  });
+  wireThemeButton(el("theme"));
 
   el("hint").textContent = `${DAYS.length} days on record`;
 

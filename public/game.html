@@ -61,6 +61,13 @@
   nav.tabs a[aria-current]{background:var(--carmine);border-color:var(--carmine);color:var(--paper)}
   @media (prefers-reduced-motion:reduce){.here-ping{animation:none;opacity:0}}
 </style>
+<script>
+  // Applied before first paint so the page never flashes the wrong theme.
+  try {
+    const t = localStorage.getItem("corpus-theme");
+    if (t) document.documentElement.setAttribute("data-theme", t);
+  } catch { /* private browsing */ }
+</script>
 </head>
 <body>
 <article class="plate">
@@ -115,6 +122,13 @@
         <div class="controls">
           <button class="act" id="logCig">Log a cigarette</button>
           <button class="act" id="logCrav">Rode out a craving</button>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="sect">Plate</h2>
+        <div class="controls">
+          <button class="act" id="theme">Dark plate</button>
         </div>
       </div>
     </div>
